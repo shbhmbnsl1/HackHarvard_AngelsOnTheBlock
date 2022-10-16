@@ -1,6 +1,6 @@
-# HackHarvard
+# HackHarvard - AngelsOnTheBlock
 
-Hack Harvard Decentralized Crowd Funding for Startups 
+HackHarvard submission - AngelsOnTheBlock - Decentralized Crowd Funding for Startups 
 
 ## Technology Stack Used
 
