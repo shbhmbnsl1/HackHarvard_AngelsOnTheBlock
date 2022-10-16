@@ -1,32 +1,32 @@
-
-#Assumptions:
-#Can only buy entire NFTs/shares at a time. No percentage or fraction of a share/NFT
+# Assumptions:
+# Can only buy entire NFTs/shares at a time. No percentage or fraction of a share/NFT
 
 import json
 
+
 class Company:
 
-    def __init__(self, name, valuation, percentEquity, totalSharesInitially,
-        sharesOutstanding, sharesBought, totalAmountRaising, amountRaised,
-        amountRemainingToRaise, investors, landingPage, progressReport,
-        additionalInfo):
+    def __init__(self, name, valuation, percent_equity, total_shares_initially,
+                 shares_outstanding, shares_bought, total_amount_raising, amount_raised,
+                 amount_remaining_to_raise, investors, landing_page, progress_report,
+                 additional_info):
         self.name = name
         self.valuation = valuation
-        self.percentEquity = percentEquity
-        self.totalSharesInitially = totalSharesInitially
-        self.sharesOutstanding = sharesOutstanding
-        self.sharesBought = sharesBought
-        self.totalAmountRaising = totalAmountRaising
-        self.amountRaised = amountRaised
-        self.amountRemainingToRaise = amountRemainingToRaise
+        self.percentEquity = percent_equity
+        self.totalSharesInitially = total_shares_initially
+        self.sharesOutstanding = shares_outstanding
+        self.sharesBought = shares_bought
+        self.totalAmountRaising = total_amount_raising
+        self.amountRaised = amount_raised
+        self.amountRemainingToRaise = amount_remaining_to_raise
         self.investors = investors
-        self.landingPage = landingPage
-        self.progressReport = progressReport
-        self.additionalInfo = additionalInfo
+        self.landingPage = landing_page
+        self.progressReport = progress_report
+        self.additionalInfo = additional_info
 
-    def getJSON(self):
-        listInvestors = json.dumps(self.investors)
-        jsonObject = {
+    def get_JSON(self):
+        list_investors = json.dumps(self.investors)
+        json_object = {
             "name": str(self.name),
             "valuation": float(self.valuation),
             "percentEquity": float(self.percentEquity),
@@ -36,8 +36,8 @@ class Company:
             "totalAmountRaising": float(self.totalAmountRaising),
             "amountRaised": float(self.amountRaised),
             "amountRemainingToRaise": float(self.amountRemainingToRaise),
-            "investors": listInvestors,
+            "investors": list_investors,
             "landingPage": str(self.landingPage)
-            #Do not include progress report and additional info for now
+            # Do not include progress report and additional info for now
         }
-        return jsonObject
+        return json_object

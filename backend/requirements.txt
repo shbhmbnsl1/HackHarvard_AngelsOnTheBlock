@@ -1,9 +1,10 @@
-flask
+Flask==2.2.2
+Flask-Cors==3.0.10
+gunicorn
 firebase-admin
-pandas
 firebase
+sseclient
 python_jwt
 gcloud
-sseclient
-requests_toolbelt
-flask_cors
+pycryptodome
+requests-toolbelt
