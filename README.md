@@ -34,7 +34,7 @@ https://testnets.opensea.io/collection/angelsontheblock
 
 ## Domain
 
-angelsonthedomain.tech
+angelsontheblock.tech 
 
 ## API End Points
 
