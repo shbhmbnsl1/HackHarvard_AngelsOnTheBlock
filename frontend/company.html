@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
+    <link href="./css/main.css" rel="stylesheet" />
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet"
+        id="bootstrap-css">
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <title>Document</title>
+</head>
+
+<body onload="onload()">
+
+    <script>
+        function getQueryString() {
+            var result = {}, queryString = location.search.slice(1),
+                re = /([^&=]+)=([^&]*)/g, m;
+
+            while (m = re.exec(queryString)) {
+                result[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+            }
+
+            return result;
+        }
+
+
+        function onload() {
+            var myParams = getQueryString();
+
+            var companyId = getQueryString()["name"];
+            console.log(companyId);
+            loadCompanyData(companyId);
+        }
+
+        const loadCompanyData = async (companyId) => {
+
+            const response = await fetch('http://127.0.0.1:8080/getCompany?name='+companyId);
+            const myJson = await response.json(); //extract JSON from the http response
+            console.log(myJson);
+            document.getElementById("amountRaised").innerHTML = "$" + myJson['amountRaised'];
+            document.getElementById("remainingAmountToBeRaised").innerHTML = "$" + myJson['amountRemainingToRaise'];
+            document.getElementById("valuation").innerHTML = "$" + myJson['valuation'];
+            document.getElementById("totalAmountRaising").innerHTML = "$" + myJson['totalAmountRaising'];
+            document.getElementById("percentEquity").innerHTML = myJson['percentEquity'] + "%";
+            document.getElementById("totalSharesInitially").innerHTML = myJson['totalSharesInitially'];
+            document.getElementById("sharesBought").innerHTML = myJson['sharesBought'];
+            document.getElementById("sharesOutstanding").innerHTML = myJson['sharesOutstanding'];
+            document.getElementById("companyName").innerHTML = myJson['name'];
+        }
+
+        const updateCompanyInvestment = async(quantity, investorKey) => {
+            console.log("Update company called")
+            var companyId = getQueryString()["name"];
+
+            var dollars = 5000 * quantity;
+
+            const response = await fetch('http://127.0.0.1:8080/invest?confirmation=1&companyKey=' + companyId + 
+            '&sharesBought=' + quantity + '&dollarAmount=' + dollars + '&investorKey=' + investorKey);
+            const responseJson = await response.json();
+            console.log(responseJson);
+            return responseJson;
+
+        }
+
+        function onPlusClick() {
+            console.log("Here");
+            var currentVal = parseInt(document.getElementById("quantity").value);
+            if (currentVal == 10) {
+                return;
+            }
+            document.getElementById("quantity").value = currentVal + 1;
+        }
+
+        function onMinusClick() {
+            console.log("Here");
+            var currentVal = parseInt(document.getElementById("quantity").value);
+            if (currentVal == 1) {
+                return;
+            }
+            document.getElementById("quantity").value = currentVal - 1;
+        }
+
+        async function mintNft() {
+            var quantity = parseInt(document.getElementById("quantity").value);
+            console.log(quantity);
+
+            var web3;
+            var initContract = async () => {
+                if (window.ethereum) {
+                    web3 = new Web3(window.ethereum);
+                    await ethereum.enable();
+                } else if (window.web3) {
+                    web3 = new Web3(window.web3.currentProvider);
+                }
+
+                if (web3) {
+                    blockCrunchContract = new web3.eth.Contract([{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"approved","type":"address"},{"indexed":true,"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"operator","type":"address"},{"indexed":false,"internalType":"bool","name":"approved","type":"bool"}],"name":"ApprovalForAll","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"Mint","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":true,"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"Transfer","type":"event"},{"inputs":[{"internalType":"uint16","name":"from","type":"uint16"},{"internalType":"uint16","name":"to","type":"uint16"}],"name":"addAvailableblockCrunchTokens","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"approve","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"baseTokenURI","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"quantity","type":"uint256"}],"name":"claimblockCrunchTokens","outputs":[{"internalType":"uint256[]","name":"","type":"uint256[]"}],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"disableClaim","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"enableClaim","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"getApproved","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getAvailableblockCrunchTokens","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"operator","type":"address"}],"name":"isApprovedForAll","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint16","name":"tokenId","type":"uint16"}],"name":"isBlockCrunchTokenAvailable","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"isClaimActive","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"ownerOf","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"pricePerToken","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"safeTransferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"},{"internalType":"bytes","name":"_data","type":"bytes"}],"name":"safeTransferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"operator","type":"address"},{"internalType":"bool","name":"approved","type":"bool"}],"name":"setApprovalForAll","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"_uri","type":"string"}],"name":"setBaseTokenURI","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_maxTokensPerTransaction","type":"uint256"}],"name":"setMaxTokensPerTransaction","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_pricePerToken","type":"uint256"}],"name":"setPricePerToken","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"bytes4","name":"interfaceId","type":"bytes4"}],"name":"supportsInterface","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"tokenByIndex","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"tokenURI","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalMintedTokens","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"transferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"withdraw","outputs":[],"stateMutability":"nonpayable","type":"function"}],
+                    "0x934A0f664BaE314B59dB7519e34A99aD7ADB7f91");
+                    console.log({ blockCrunchContract });
+
+                    var addresses = await web3.eth.getAccounts();
+                    var senderAddress = addresses[0];
+
+                    console.log(1000000 * quantity);
+
+                    blockCrunchContract.methods.claimblockCrunchTokens(quantity).send(
+                        {
+                            from: senderAddress,
+                            value: 1000000 * quantity
+                        }
+                    ).on('transactionHash', function (transactionHash) {
+                        alert("Successfully created transaction, Just wait a moment, Your transaction hash is " + transactionHash);
+                    }).on('receipt', function (receipt) {
+                        console.log("Received receipt");
+                        updateCompanyInvestment(quantity, senderAddress).then(data => {
+                            console.log(data);
+                        })
+                        alert("Invested successfully. Head over to opensea to view your equity nfts");
+                    }).on('error', function (error) {
+                        alert(JSON.stringify(error.message));
+                    });
+
+                } else {
+                    alert("You need to connect your metamask wallet");
+                }
+            }
+
+            initContract();
+        }
+    </script>
+
+    <div class="v202_128">
+        <div class="v203_849">
+            <div class="v202_723">
+                <div class="v202_724"></div>
+                <div class="v202_725">
+                    <div class="v202_726"></div>
+                    <div class="name"></div>
+                </div>
+                <div class="v202_728">
+                    <div class="v203_855"><span class="v202_729">About the Company</span></div><span
+                        class="v202_730">Take a look to all the companies documents before investing in it</span>
+                </div>
+            </div>
+            <div class="v202_734">
+                <div class="v202_735"></div>
+                <div class="v202_736">
+                    <div class="v202_737"></div>
+                    <div class="name"></div>
+                </div>
+                <div class="v202_739"><span class="v202_740">Ask The Team</span><span class="v202_741">Let the team and
+                        their community answer your questions about the company</span></div>
+            </div>
+        </div>
+        <div class="v203_848">
+            <div class="v203_844">
+                <div class="v203_843"></div><span class="v202_795">10</span>
+                <div class="name"></div>
+                <div class="name"></div><span class="v203_813">Attend a stakeholders meeting to decide on the future of
+                    the company</span><span class="v203_817">Genius</span>
+            </div>
+            <div class="v203_845">
+                <div class="v203_842"></div><span class="v202_794">5</span>
+                <div class="name"></div>
+                <div class="name"></div><span class="v203_812">Try our product one month before public
+                    launch</span><span class="v203_815">Master</span>
+            </div>
+            <div class="v203_846">
+                <div class="v203_841"></div>
+                <div class="v203_819"><span class="v203_814">Pro</span><span class="v203_807">Access to a private event
+                        with our CEO at our HQ</span><span class="v202_793">3</span>
+                    <div class="name"></div>
+                    <div class="name"></div>
+                </div>
+            </div><span class="v202_745">NFT Rewards</span>
+        </div>
+        <div class="v203_822">
+            <div class="name"></div>
+            <div class="name"></div>
+            <div class="name"></div><span class="v202_710">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nibh
+                eleifend arcu vel faucibus arcu, ultrices. Id in auctor posuere nisl volutpat at laoreet.j oOn top of
+                all these achievemtsnthis company allowed the performance of differnt auto pilot because they believe in
+                the idea of decentralized companies that can work in this sort of projects</span>
+        </div>
+        <div class="v203_852">
+            <div class="v202_698">
+                <div class="v202_699"></div>
+                <div class="v202_700"><span class="v202_703">Sold Shares</span><span id="sharesBought" class="v202_707">0</span></div>
+                <div class="v202_704">
+                    <span id="sharesOutstanding" class="v202_705">0</span>
+                    <span class="v202_706">Remaining Shares</span>
+                </div>
+            </div>
+            <div class="v202_689">
+                <div class="v202_690"></div>
+                <div class="v202_691"><span id="percentEquity" class="v202_693">0%</span><span class="v202_694">Equity</span></div>
+                <div class="v202_695"><span id="totalSharesInitially" class="v202_696">0</span><span class="v202_697">Number of Shares</span>
+                </div>
+            </div>
+            <div class="v202_662">
+                <div class="v202_663"></div>
+                <div class="v202_664"><span id="valuation" class="v202_666">$0</span><span class="v202_667">Valuation</span>
+                </div>
+                <div class="v202_668"><span id="totalAmountRaising" class="v202_669">$0</span><span class="v202_670">Offering Max.</span>
+                </div>
+            </div>
+            <div class="v202_604">
+                <div class="v202_605"></div>
+                <div class="v202_616">
+                    <div class="v202_617"></div><span id="amountRaised" class="v202_618">$0</span><span
+                        class="v202_619">Raised</span>
+                </div>
+                <div class="v202_620"><span id="remainingAmountToBeRaised" class="v202_622">$0</span><span class="v202_624">Remaining</span></div>
+            </div>
+
+            <div class="v1604_38">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-danger btn-number" data-type="minus" data-field="quant[2]"
+                            onclick="onMinusClick()">
+                            <span class="glyphicon glyphicon-minus"></span>
+                        </button>
+                    </span>
+                    <input id="quantity" type="text" style="width: 70px" name="quant[2]"
+                        class="form-control input-number" value="1" min="1" max="10">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-success btn-number" data-type="plus" data-field="quant[2]"
+                            onclick="onPlusClick()">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                    </span>
+                </div>
+                <button class="invest" onclick="mintNft()">Invest Now</button>
+
+            </div>
+
+        </div>
+        <div class="v203_850">
+            <div class="v203_832">
+                <div class="name"></div>
+                <div class="name"></div>
+            </div>
+            <div class="v203_847">
+                <div class="name"></div>
+                <div class="name"></div>
+            </div>
+            <div class="v202_600"></div>
+        </div>
+        <div class="v203_851"><span id="companyName" class="v202_601"></span><span class="v202_615">Your most
+                favourite brand for shopping</span></div>
+    </div>
+</body>
+
+</html>

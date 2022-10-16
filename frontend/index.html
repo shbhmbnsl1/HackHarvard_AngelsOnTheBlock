@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+
+* {
+  box-sizing: border-box;
+}
+
+/* Create three equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 25%;
+  padding: 10px;
+  height: 300px; /* Should be removed. Only for demonstration */
+  margin-left: 5%;
+}
+
+.row {
+    margin-bottom: 100px;
+    padding-bottom: 100px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+  margin-bottom: 100px;
+}
+
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+  }
+}
+
+        body, html {
+  height: 100%;
+  margin: 0;
+}
+
+        .bg {
+            /* The image used */
+            background-image: url("images/landing_page.jpg");
+
+            /* Full height */
+            height: 90%;
+
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .bg2 {
+            /* The image used */
+            background-image: url("images/research.png");
+
+            /* Full height */
+            height: 70%;
+
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain
+        }
+
+        .bg3 {
+            /* The image used */
+            background-image: url("images/process.jpg");
+
+            /* Full height */
+            height: 85%;
+
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- <a href="company.html?name=minervaHash">Minerva Hash</a>
+    <a href="company.html?name=bubleHash">Buble Hash</a>
+    <a href="company.html?name=cruiseHash">Cruise Hash</a> -->
+
+    <div class="bg"></div>
+    <div class="bg2"></div>
+
+    <div class="bg3"></div>
+
+    <div style="border-top: 5px;">
+    <div style="text-align: center;">
+        <h1 style="color: #7158E2;">Invest in Startups</h1>
+    </div>
+    
+
+    <div class="row">
+        <div onclick="window.location='company.html?name=minervaHash';" class="column" style="background-image: url('images/minerva.png'); background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain; border-style: groove;">
+        </div>
+        <div onclick="window.location='company.html?name=cruiseHash';" class="column" style="background-image: url('images/cruise.png'); background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain; border-style: groove;">
+        </div>
+        <div onclick="window.location='company.html?name=bubleHash';" class="column" style="background-image: url('images/bubble.png'); background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain; border-style: groove;">
+        </div>
+      </div>
+    </div>
+
+    <div>
+
+
+
+    </div>
+
+</body>
+
+</html>
