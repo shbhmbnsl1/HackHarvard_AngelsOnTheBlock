@@ -2,10 +2,6 @@
 
 Hack Harvard Decentralized Crowd Funding for Startups 
 
-## GitHub
-
-https://github.com/shbhmbnsl1/HackHarvard_AngelsOnTheBlock
-
 ## Technology Stack Used
 
 BlockChain : Ethereum(Smart Contracts) \
