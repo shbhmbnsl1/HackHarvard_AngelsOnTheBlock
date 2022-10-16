@@ -16,6 +16,10 @@ Database&nbsp;&nbsp;&nbsp;&nbsp;  : Google Firebase Realtime Database \
 Hosting&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   : Google Cloud Run Instance \
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Docker
 
+## Application Deployed on
+
+https://d1l2v2w5e6pwfw.cloudfront.net/
+
 ## Youtube Demo Video
 
 https://youtu.be/gEsxniNKFcI
@@ -25,10 +29,6 @@ https://youtu.be/gEsxniNKFcI
 https://goerli.etherscan.io/address/0x934a0f664bae314b59db7519e34a99ad7adb7f91
 
 ## Opensea nft collection (testnet)
-
-https://testnets.opensea.io/collection/angelsontheblock
-
-## Application Deployed on
 
 https://testnets.opensea.io/collection/angelsontheblock
 
